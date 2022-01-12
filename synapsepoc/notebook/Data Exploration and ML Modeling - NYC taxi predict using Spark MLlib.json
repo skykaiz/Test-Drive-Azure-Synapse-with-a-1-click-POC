@@ -16,14 +16,13 @@
 			"conf": {
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
-				"spark.dynamicAllocation.maxExecutors": "2"
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "91816ac2-a26f-43b5-9db3-f8fba937f50f"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
-			"synapse_widget": {
-				"version": "0.1"
-			},
+			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
 				"display_name": "Synapse PySpark"
@@ -32,10 +31,10 @@
 				"name": "python"
 			},
 			"a365ComputeOptions": {
-				"id": "/subscriptions/4eeedd72-d937-4243-86d1-c3982a84d924/resourceGroups/nashahzsfin/providers/Microsoft.Synapse/workspaces/mfstspdjvzuh3xeu2pocws1/bigDataPools/ws1sparkpool1",
+				"id": "/subscriptions/653fbca5-4f2c-4f8e-9140-63e4173d3f8b/resourceGroups/synapsetest/providers/Microsoft.Synapse/workspaces/btcfcmzsas75drnipocws1/bigDataPools/ws1sparkpool1",
 				"name": "ws1sparkpool1",
 				"type": "Spark",
-				"endpoint": "https://mfstspdjvzuh3xeu2pocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparkpool1",
+				"endpoint": "https://btcfcmzsas75drnipocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparkpool1",
 				"auth": {
 					"type": "AAD",
 					"authResource": "https://dev.azuresynapse.net"
@@ -282,19 +281,13 @@
 					"## Undertake training and create an LR model\n",
 					"lrModel = Pipeline(stages=[classFormula, logReg]).fit(train_data_df)\n",
 					"\n",
-					"## Saving the model is optional but its another for of inter session cache\n",
-					"datestamp = datetime.now().strftime('%m-%d-%Y-%s');\n",
-					"fileName = \"lrModel_\" + datestamp;\n",
-					"logRegDirfilename = fileName;\n",
-					"lrModel.save(logRegDirfilename)\n",
-					"\n",
 					"## Predict tip 1/0 (yes/no) on the test dataset, evaluation using AUROC\n",
 					"predictions = lrModel.transform(test_data_df)\n",
 					"predictionAndLabels = predictions.select(\"label\",\"prediction\").rdd\n",
 					"metrics = BinaryClassificationMetrics(predictionAndLabels)\n",
 					"print(\"Area under ROC = %s\" % metrics.areaUnderROC)"
 				],
-				"execution_count": 10
+				"execution_count": 11
 			},
 			{
 				"cell_type": "markdown",
@@ -317,6 +310,24 @@
 					"plt.xlabel('False Positive Rate')\n",
 					"plt.ylabel('True Positive Rate')\n",
 					"plt.show()"
+				],
+				"execution_count": 12
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
 				],
 				"execution_count": null
 			}
